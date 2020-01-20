@@ -1,0 +1,71 @@
+/**
+ * MiddlewareApi.ds
+ *
+ * Usage:
+ * var MiddlewareApi = require("int_assignment/cartridge/scripts/api/MiddlewareApi");
+ * var api = new MiddlewareApi();
+ *
+ */
+importPackage( dw.system );
+importPackage( dw.svc );
+importPackage( dw.util );
+importPackage( dw.web );
+
+var servicesInit = require('int_assignment/cartridge/scripts/init/servicesInit');
+
+/**
+ * Constructor
+ */
+function MiddlewareApi() {
+}
+/*
+ *  Currency Conversion Get Service
+ */
+MiddlewareApi.prototype.currencyConversionGetService = function() : Object {
+    var request = {},
+    service = servicesInit.currencyConversionGetService,
+    result;
+
+    result = makeCall(service, request);
+
+    return result;
+}
+
+
+/************************************
+ * PRIVATE FUNCTIONS
+ ***********************************/
+
+function makeCall(service : Service, requestBody : Object) : Object {
+
+	var configID = service.configuration.ID;
+	var requestMethod = service.getRequestMethod();
+	var reqBody = JSON.stringify(requestBody);
+
+   	var request = requestBody || {},
+		result;
+	
+	result = service.call(request);
+
+	var errorMsg = processResponse( service, result);
+
+	if(!empty(errorMsg)){
+		throw new Error( errorMsg);
+	}
+
+	return result;
+}
+
+function processResponse(service, result){
+	var errorMsg;
+	if((typeof(result.object)==="string") && (result.object.slice(0, 6)==="Error:")){
+		errorMsg = "Service: " + service.credentialID + " Status: " + result.status + " Message: " + result.object;
+	}else if(result.status === dw.svc.Result.SERVICE_UNAVAILABLE) {
+		errorMsg = "Service: " + service.credentialID + " Status: " + result.status + " Message: " + (result.errorMessage || result.msg);
+	}else if (result.status === dw.svc.Result.ERROR) {
+		errorMsg = "Service Resutl Error: " + service.credentialID + " Status: " + result.status + " result.msg: " +  result.msg+ " result.errorMessage: " + result.errorMessage;
+	}
+	return errorMsg;
+}
+
+module.exports = MiddlewareApi;
