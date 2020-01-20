@@ -1,0 +1,24 @@
+<!--- TEMPLATENAME: currencyConverter.isml --->
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<isdecorate template="content/home/pt_storefront">
+	<isinclude template="util/modules"/>
+	<isscript>
+		var attributes = {
+			disabled: 'disabled'
+		};
+	</isscript>
+	<form action="${URLUtils.continueURL()}" method="post" id="${pdict.CurrentForms.currencies.htmlName}" class="currency-converter form-horizontal">
+		<fieldset>
+			<isinputfield formfield="${pdict.CurrentForms.currencies.fromCurrencyValue}" type="number" rowclass="currency"/>
+			<isinputfield formfield="${pdict.CurrentForms.currencies.fromCurrency}" type="select" rowclass="currency"/>
+			
+			<br/><br/><br/><br/>
+			<isinputfield formfield="${pdict.CurrentForms.currencies.toCurrencyValue}" type="input" rowclass="currency" attributes="${attributes}"/>
+			<isinputfield formfield="${pdict.CurrentForms.currencies.toCurrency}" type="select" rowclass="currency"/>
+			
+			<button class="button-fancy-large" type="submit" style="margin-left: 365px;" name="${pdict.CurrentForms.currencies.calculate.htmlName}" value="${Resource.msg('resources.calculate','forms',null)}"><span>${Resource.msg('resources.calculate','forms',null)}</span></button>
+			<br/><br/><br/><br/>
+		</fieldset>
+	</form>
+</isdecorate>
+<script src="${URLUtils.staticURL('/js/currencyajax.js')}"></script>
