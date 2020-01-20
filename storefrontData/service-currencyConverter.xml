@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://www.demandware.com/xml/impex/services/2014-09-26">
+    <service-credential service-credential-id="currencyConverter.cred.http">
+        <url>http://data.fixer.io/api/latest?access_key=00082d550bc1554cc9278771d21e69ad</url>
+        <user-id/>
+        <password encrypted="true" encryption-type="common.export">U7RgCJ/iLKvvyD4rWGEqgbb8KXKM/o1vycJx0LRXx6c=</password>
+    </service-credential>
+
+    <service-profile service-profile-id="currencyConverter.prof.http">
+        <timeout-millis>10000</timeout-millis>
+        <rate-limit-enabled>false</rate-limit-enabled>
+        <rate-limit-calls>0</rate-limit-calls>
+        <rate-limit-millis>0</rate-limit-millis>
+        <cb-enabled>true</cb-enabled>
+        <cb-calls>50</cb-calls>
+        <cb-millis>60000</cb-millis>
+    </service-profile>
+
+    <service service-id="currencyConverter.get.http">
+        <service-type>HTTP</service-type>
+        <enabled>true</enabled>
+        <log-prefix>currencyConverter</log-prefix>
+        <comm-log-enabled>true</comm-log-enabled>
+        <force-prd-enabled>false</force-prd-enabled>
+        <mock-mode-enabled>false</mock-mode-enabled>
+        <profile-id>currencyConverter.prof.http</profile-id>
+        <credential-id>currencyConverter.cred.http</credential-id>
+    </service>
+
+</services>
